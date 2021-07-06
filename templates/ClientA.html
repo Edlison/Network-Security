@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+      integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Client A</title>
+</head>
+<body>
+<div class="panel panel-default">
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Client A</h1>
+            <p>You can send message here.</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="panel-body">
+            <input id="msg-box" class="panel-body" type="text" value="Write message here...">
+            <button id="bt-send" onclick="send()">Send</button>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Return Encode Message</h3>
+            </div>
+            <div class="panel-body">
+                <p id="return-en_msg"></p>
+            </div>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Return Decode Message</h3>
+            </div>
+            <div class="panel-body">
+                <p id="return-de_msg"></p>
+            </div>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Return Validation</h3>
+            </div>
+            <div class="panel-body">
+                <p id="return-is_val"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function send() {
+        $.ajax({
+            type: 'POST',
+            url: 'http://0.0.0.0:5001/send',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                'msg': $("#msg-box").val()
+            }),
+            success: function (data) {
+                if (data.code === 0) {
+                    alert('send success')
+                }
+                $("#return-en_msg").text(data.data.en_msg)
+                $("#return-de_msg").text(data.data.de_msg)
+                $("#return-is_val").text(data.data.is_val)
+            }
+        })
+    }
+</script>
+</html>
